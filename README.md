@@ -278,7 +278,7 @@ Testing algorithm with different key values. ALGORITHM DESCRIPTION: The Hill cip
 
 Register N0-212224220062
 Name-Meenakshi.R
-
+```
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -346,9 +346,13 @@ int main() {
 
     return 0;
 }
+```
 # OUTPUT: Simulating Hill Cipher
 
 Input Message : SecurityLaboratory Padded Message : SECURITYLABORATORY Encrypted Message : EACSDKLCAEFQDUKSXU Decrypted Message : SECURITYLABORATORY
+
+<img width="283" alt="Screenshot 2025-03-19 093854" src="https://github.com/user-attachments/assets/6fe74b34-9243-49d9-8119-f26eec3d3976" />
+
 # RESULT:
 
 The program is executed successfully
