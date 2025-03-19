@@ -245,12 +245,13 @@ int main() {
    return 0;
 }
 ```
-OUTPUT:
+# OUTPUT:
 
-OUTPUT:
-Output: Key text: Monarchy Plain text: instruments Cipher text: gatlmzclrqtx
+<img width="280" alt="Screenshot 2025-03-19 092305" src="https://github.com/user-attachments/assets/9367423f-0295-41b9-8d36-5feac7b4731e" />
 
-RESULT:
+# Input: Key text: Monarchy Plain text: instruments Cipher text: gatlmzclrqtx
+
+# RESULT:
 The program is executed successfully
 
 
