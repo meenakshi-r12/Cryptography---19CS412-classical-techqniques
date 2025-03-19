@@ -111,7 +111,7 @@ If the letters are not on the same row or column, replace them with the letters 
 
 Register N0-212224220062
 Name-Meenakshi.R
-----
+```
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -244,7 +244,7 @@ int main() {
 
    return 0;
 }
-----
+```
 OUTPUT:
 
 OUTPUT:
