@@ -279,6 +279,73 @@ Testing algorithm with different key values. ALGORITHM DESCRIPTION: The Hill cip
 Register N0-212224220062
 Name-Meenakshi.R
 
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int keymat[3][3] = {{1, 2, 1}, {2, 3, 2}, {2, 2, 1}};
+int invkeymat[3][3] = {{-1, 0, 1}, {2, -1, 0}, {-2, 2, -1}};
+char key[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+void encode(char a, char b, char c, char *ret) {
+    int x = (a - 65) * keymat[0][0] + (b - 65) * keymat[1][0] + (c - 65) * keymat[2][0];
+    int y = (a - 65) * keymat[0][1] + (b - 65) * keymat[1][1] + (c - 65) * keymat[2][1];
+    int z = (a - 65) * keymat[0][2] + (b - 65) * keymat[1][2] + (c - 65) * keymat[2][2];
+    ret[0] = key[x % 26];
+    ret[1] = key[y % 26];
+    ret[2] = key[z % 26];
+    ret[3] = '\0';
+}
+
+void decode(char a, char b, char c, char *ret) {
+    int x = (a - 65) * invkeymat[0][0] + (b - 65) * invkeymat[1][0] + (c - 65) * invkeymat[2][0];
+    int y = (a - 65) * invkeymat[0][1] + (b - 65) * invkeymat[1][1] + (c - 65) * invkeymat[2][1];
+    int z = (a - 65) * invkeymat[0][2] + (b - 65) * invkeymat[1][2] + (c - 65) * invkeymat[2][2];
+    ret[0] = key[(x % 26 + 26) % 26];
+    ret[1] = key[(y % 26 + 26) % 26];
+    ret[2] = key[(z % 26 + 26) % 26];
+    ret[3] = '\0';
+}
+
+int main() {
+    char msg[1000], enc[1000] = "", dec[1000] = "", temp[4];
+
+    printf("Enter the plaintext: ");
+    fgets(msg, sizeof(msg), stdin);
+    msg[strcspn(msg, "\n")] = '\0';
+
+    for (int i = 0; i < strlen(msg); i++) {
+        msg[i] = toupper(msg[i]);
+    }
+
+    int original_len = strlen(msg);
+
+    int n = original_len % 3;
+    if (n != 0) {
+        for (int i = 0; i < 3 - n; i++) {
+            strcat(msg, "X");
+        }
+    }
+
+    printf("Padded message: %s\n", msg);
+
+    for (int i = 0; i < strlen(msg); i += 3) {
+        encode(msg[i], msg[i + 1], msg[i + 2], temp);
+        strcat(enc, temp);
+    }
+
+    for (int i = 0; i < strlen(enc); i += 3) {
+        decode(enc[i], enc[i + 1], enc[i + 2], temp);
+        strcat(dec, temp);
+    }
+
+    dec[original_len] = '\0';
+
+    printf("Encoded message: %s\n", enc);
+    printf("Decoded message: %s\n", dec);
+
+    return 0;
+}
 # OUTPUT: Simulating Hill Cipher
 
 Input Message : SecurityLaboratory Padded Message : SECURITYLABORATORY Encrypted Message : EACSDKLCAEFQDUKSXU Decrypted Message : SECURITYLABORATORY
