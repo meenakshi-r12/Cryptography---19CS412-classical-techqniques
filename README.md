@@ -30,14 +30,11 @@ Implementation using C or pyhton code
 
 
 ## PROGRAM:
-PROGRAM:
+Register no-212224220062
+Name-Meenakshi.R
+
 CaearCipher.
-
-
-## OUTPUT:
-OUTPUT:
-Simulating Caesar Cipher
-
+```
 #include <stdio.h>
 #include <stdlib.h>
 void caesarEncrypt(char *text, int key) {
@@ -67,6 +64,14 @@ int main() {
     printf("Decrypted Message: %s\n", message);
     return 0;
 }
+```
+## OUTPUT:
+
+OUTPUT:
+Simulating Caesar Cipher
+
+<img width="317" alt="Screenshot 2025-03-19 084352" src="https://github.com/user-attachments/assets/7374e3a2-0f6a-406a-8afc-328dd4b860ac" />
+
 
 
 Input : Anna University
@@ -74,10 +79,5 @@ Encrypted Message : Dqqd Xqlyhuvlwb Decrypted Message : Anna University
 
 ## RESULT:
 The program is executed successfully
-
---------------------------------------
-
-<img width="317" alt="Screenshot 2025-03-19 084352" src="https://github.com/user-attachments/assets/7374e3a2-0f6a-406a-8afc-328dd4b860ac" />
-
 
 --------------------------------------
