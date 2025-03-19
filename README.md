@@ -82,14 +82,14 @@ The program is executed successfully
 
 --------------------------------------
 
-PlayFair Cipher
+# PlayFair Cipher
 
 Playfair Cipher using with different key values
 
-AIM:
+# AIM:
 To implement a program to encrypt a plain text and decrypt a cipher text using play fair Cipher substitution technique.
 
-DESIGN STEPS:
+# DESIGN STEPS:
 
 Step 1:
 Design of PlayFair Cipher algorithnm
@@ -107,7 +107,145 @@ variants of Playfair use "Q" instead of "X", but any letter, itself uncommon as 
 If the letters appear on the same row of your table, replace them with the letters to their immediate right respectively (wrapping around to the left side of the row if a letter in the original pair was on the right side of the row).
 If the letters appear on the same column of your table, replace them with the letters immediately below respectively (wrapping around to the top side of the column if a letter in the original pair was on the bottom side of the column).
 If the letters are not on the same row or column, replace them with the letters on the same row respectively but at the other pair of corners of the rectangle defined by the original pair. The order is important – the first letter of the encrypted pair is the one that lies on the same row as the first letter of the plaintext pair. To decrypt, use the INVERSE (opposite) of the last 3 rules, and the 1st as-is (dropping any extra "X"s, or "Q"s that do not make sense in the final message when finished).
-PROGRAM:
+# PROGRAM:
+
+Register N0-212224220062
+Name-Meenakshi.R
+----
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+#define SIZE 5
+
+void prepareKeyMatrix(char key[], char keyMatrix[SIZE][SIZE]) {
+   int used[26] = {0};
+   int i, j, k = 0;
+
+   used['J' - 'A'] = 1;
+
+   for (i = 0; key[i] != '\0'; i++) {
+       char currentChar = toupper(key[i]);
+       if (!used[currentChar - 'A']) {
+           keyMatrix[k / SIZE][k % SIZE] = currentChar;
+           used[currentChar - 'A'] = 1;
+           k++;
+       }
+   }
+
+   for (i = 0; i < 26; i++) {
+       if (!used[i]) {
+           keyMatrix[k / SIZE][k % SIZE] = 'A' + i;
+           k++;
+       }
+   }
+}
+
+void printKeyMatrix(char keyMatrix[SIZE][SIZE]) {
+   printf("Key Matrix:\n");
+   for (int i = 0; i < SIZE; i++) {
+       for (int j = 0; j < SIZE; j++) {
+           printf("%c ", keyMatrix[i][j]);
+       }
+       printf("\n");
+   }
+}
+
+void findPosition(char keyMatrix[SIZE][SIZE], char letter, int *row, int *col) {
+   if (letter == 'J') letter = 'I';
+   for (int i = 0; i < SIZE; i++) {
+       for (int j = 0; j < SIZE; j++) {
+           if (keyMatrix[i][j] == letter) {
+               *row = i;
+               *col = j;
+               return;
+           }
+       }
+   }
+}
+
+void encrypt(char text[], char keyMatrix[SIZE][SIZE], char encryptedText[]) {
+   int i, row1, col1, row2, col2;
+   char first, second;
+   int length = strlen(text);
+
+   for (i = 0; i < length; i += 2) {
+       first = toupper(text[i]);
+       second = (i + 1 < length) ? toupper(text[i + 1]) : 'X';
+
+       findPosition(keyMatrix, first, &row1, &col1);
+       findPosition(keyMatrix, second, &row2, &col2);
+
+       if (row1 == row2) {
+           encryptedText[i] = keyMatrix[row1][(col1 + 1) % SIZE];
+           encryptedText[i + 1] = keyMatrix[row2][(col2 + 1) % SIZE];
+       } else if (col1 == col2) {
+           encryptedText[i] = keyMatrix[(row1 + 1) % SIZE][col1];
+           encryptedText[i + 1] = keyMatrix[(row2 + 1) % SIZE][col2];
+       } else {
+           encryptedText[i] = keyMatrix[row1][col2];
+           encryptedText[i + 1] = keyMatrix[row2][col1];
+       }
+   }
+   encryptedText[length] = '\0';
+}
+
+void decrypt(char text[], char keyMatrix[SIZE][SIZE], char decryptedText[]) {
+   int i, row1, col1, row2, col2;
+   char first, second;
+   int length = strlen(text);
+
+   for (i = 0; i < length; i += 2) {
+       first = toupper(text[i]);
+       second = (i + 1 < length) ? toupper(text[i + 1]) : 'X';
+
+       findPosition(keyMatrix, first, &row1, &col1);
+       findPosition(keyMatrix, second, &row2, &col2);
+
+       if (row1 == row2) {
+           decryptedText[i] = keyMatrix[row1][(col1 - 1 + SIZE) % SIZE];
+           decryptedText[i + 1] = keyMatrix[row2][(col2 - 1 + SIZE) % SIZE];
+       } else if (col1 == col2) {
+           decryptedText[i] = keyMatrix[(row1 - 1 + SIZE) % SIZE][col1];
+           decryptedText[i + 1] = keyMatrix[(row2 - 1 + SIZE) % SIZE][col2];
+       } else {
+           decryptedText[i] = keyMatrix[row1][col2];
+           decryptedText[i + 1] = keyMatrix[row2][col1];
+       }
+   }
+   decryptedText[length] = '\0';
+}
+
+int main() {
+   char key[100], text[100], keyMatrix[SIZE][SIZE], encryptedText[100], decryptedText[100];
+
+   printf("Enter the keyword: ");
+   fgets(key, sizeof(key), stdin);
+   key[strcspn(key, "\n")] = '\0';
+
+   printf("Enter the plaintext: ");
+   fgets(text, sizeof(text), stdin);
+   text[strcspn(text, "\n")] = '\0';
+
+   if (strlen(text) % 2 != 0) {
+       strcat(text, "X");
+   }
+
+   prepareKeyMatrix(key, keyMatrix);
+   printKeyMatrix(keyMatrix);
+
+   printf("Plaintext: %s\n", text);
+
+   encrypt(text, keyMatrix, encryptedText);
+   printf("Encrypted Text: %s\n", encryptedText);
+
+   decrypt(encryptedText, keyMatrix, decryptedText);
+   printf("Decrypted Text: %s\n", decryptedText);
+
+   return 0;
+}
+----
+OUTPUT:
 
 OUTPUT:
 Output: Key text: Monarchy Plain text: instruments Cipher text: gatlmzclrqtx
